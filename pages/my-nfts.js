@@ -20,7 +20,7 @@ export default function MyAssets() {
   }, [])
   async function loadNFTs() {
     const web3Modal = new Web3Modal({
-      network: "development",
+      network: "localhost",
       cacheProvider: true,
     })
     const connection = await web3Modal.connect()
@@ -49,7 +49,7 @@ export default function MyAssets() {
     setLoadingState('loaded')
   }
   function listNFT(nft) {
-    router.push(`/`)
+    router.push(`/resell-nft?id=${nft.tokenId}&tokenURI=${nft.tokenURI}`)
   }
   if (loadingState === 'loaded' && !nfts.length) return (<h1 className="py-10 px-20 text-3xl">No NFTs owned</h1>)
   return (

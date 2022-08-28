@@ -61,6 +61,7 @@ export default function CreateItem() {
       NFTMarketplace.abi,
       signer
     );
+    console.log(signer)
     let listingPrice = await contract.getListingPrice();
     listingPrice = listingPrice.toString();
     let transaction = await contract.createToken(url, price, {

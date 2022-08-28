@@ -16,7 +16,7 @@ export default function CreatorDashboard() {
   }, []);
   async function loadNFTs() {
     const web3Modal = new Web3Modal({
-      network: "testnet",
+      network: "development",
       cacheProvider: true,
     });
     const connection = await web3Modal.connect();

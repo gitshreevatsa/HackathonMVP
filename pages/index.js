@@ -5,6 +5,9 @@ import axios from "axios";
 import Web3Modal from "web3modal";
 import { setDoc, doc } from "firebase/firestore";
 import db from "../db";
+import Popup from "reactjs-popup";
+import Dropdown from "react-dropdown";
+import "react-dropdown/style.css";
 
 import { marketplaceAddress } from "../config";
 
@@ -15,10 +18,32 @@ import { getDoc } from "firebase/firestore";
 export default function Home() {
   const [accountConnected, setAccountConnected] = useState(false);
   const [currentAccount, setCurrentAccount] = useState("");
-
+  const [role, setRole] = useState("");
+  const[verify, setVerify] = useState("")
   const [nfts, setNfts] = useState([]);
   const [loadingState, setLoadingState] = useState("not-loaded");
+  const[prosumer, setProsumer] = useState(false)
+  const options = ["Prosumers", "Consumers", "Distributors"];
 
+  async function dbGet() {
+    if (accountConnected) {
+      console.log(currentAccount)
+       const docRef = doc(db, "users", currentAccount)
+       console.log("awkkabjkawurhwkaj iuwkurgweuirgwuigrwebhjfhjgewuyrgewugrfuewruiwgrukyqwtiewyg eyjg yewytrawugrkuiwyt7")
+      const docSnap = await getDoc(docRef);
+      console.log("ukgfjkawbjkwagurbwajfhawguesbgjkesbjavfykgawiaw,j ")
+
+      if(docSnap.exists()){
+        const docData = await docSnap.data()
+        console.log("*********************************",docSnap.data())
+        const roleTaken = docData.role;
+        setVerify(roleTaken)
+        if(roleTaken === 'Prosumers'){
+          setProsumer(true)
+        }
+      }
+    }
+  }
   const checkIfWalletIsConnected = async () => {
     try {
       const { ethereum } = window;
@@ -35,11 +60,15 @@ export default function Home() {
       if (accounts.length !== 0) {
         const account = accounts[0];
         console.log("Found an authorized account:", account);
+        const data = {
+          owner: currentAccount,
+          role: role,
+        };
+        console.log(data);
+        await setDoc(doc(db, "users", currentAccount), data);
         setAccountConnected(true);
-
       } else {
         console.log("No authorized account found");
-
       }
     } catch (error) {
       console.log(error);
@@ -47,7 +76,6 @@ export default function Home() {
   };
 
   const connectWallet = async () => {
-
     try {
       const { ethereum } = window;
 
@@ -63,10 +91,6 @@ export default function Home() {
       console.log("Connected", accounts[0]);
       setCurrentAccount(accounts[0]);
       setCurrentAccount(accounts[0]);
-      const data = {
-        owner: currentAccount,
-      };
-      await setDoc(doc(db, "users", currentAccount), data);
     } catch (error) {
       console.log(error);
     }
@@ -75,9 +99,9 @@ export default function Home() {
   useEffect(() => {
     loadNFTs();
     checkIfWalletIsConnected();
-
   }, [accountConnected, currentAccount]);
   async function loadNFTs() {
+    dbGet()
     /* create a generic provider and query for unsold market items */
     const provider = new ethers.providers.JsonRpcProvider("https://rpc-mumbai.maticvigil.com");
     const contract = new ethers.Contract(
@@ -86,6 +110,7 @@ export default function Home() {
       provider
     );
     const data = await contract.fetchMarketItems();
+
     /*
      *  map over items returned from smart contract and format
      *  them as well as fetch their token metadata
@@ -155,18 +180,30 @@ export default function Home() {
                   <p className="text-2xl font-bold text-white">
                     {nft.price} ETH
                   </p>
+                  { !prosumer &&
                   <button
                     className="mt-4 w-full bg-pink-500 text-white font-bold py-2 px-12 rounded"
                     onClick={() => buyNft(nft)}
                   >
                     Buy
                   </button>
+}
                 </div>
               </div>
             ))}
           </div>
         ) : (
-          <button onClick={connectWallet}>Connect Wallet </button>
+          <>
+            <Dropdown
+              options={options}
+              onChange={(e) => {
+                setRole(e.value);
+              }}
+              placeholder="Select an option"
+            ></Dropdown>
+
+            <button onClick={connectWallet}>Connect Wallet </button>
+          </>
         )}
       </div>
     </div>
