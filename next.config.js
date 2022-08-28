@@ -2,11 +2,11 @@
 const nextConfig = {
   reactStrictMode: true,
   swcMinify: true,
-  // images: {
-  //   loader: 'akamai',
-  //   path: '',
-  // },
-  // trailingSlash: true,
+  images: {
+    loader: 'akamai',
+    path: '',
+  },
+  trailingSlash: true,
 }
 
 module.exports = nextConfig
