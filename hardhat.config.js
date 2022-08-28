@@ -10,7 +10,7 @@ module.exports = {
 //  unused configuration commented out for now
  mumbai: {
    url: "https://rpc-mumbai.maticvigil.com",
-   accounts: ["f01635ab723c226ad5d2fdf9a468fdb59a681d1b4441fc1ac02c0a77cc02ec04"]
+   accounts: ["117849d1c1970d31441800f4a100a4077044b45243d8c8155deff9754bcdddb6"]
  }
    },
   solidity: {
