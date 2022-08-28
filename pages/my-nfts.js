@@ -9,7 +9,7 @@ import {
   marketplaceAddress
 } from '../config'
 
-import NFTMarketplace from '../artifacts/contracts/NFTMarketplace.sol/NFTMarketplace.json'
+import NFTMarketplace from "../public/NFTMarketplace.json";
 
 export default function MyAssets() {
   const [nfts, setNfts] = useState([])

@@ -11,7 +11,7 @@ import "react-dropdown/style.css";
 
 import { marketplaceAddress } from "../config";
 
-import NFTMarketplace from "../artifacts/contracts/NFTMarketplace.sol/NFTMarketplace.json";
+import NFTMarketplace from "../public/NFTMarketplace.json";
 
 import { getDoc } from "firebase/firestore";
 

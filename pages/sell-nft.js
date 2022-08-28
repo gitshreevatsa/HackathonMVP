@@ -12,7 +12,7 @@ const nftstorage = new NFTStorage({ token: NFT_STORAGE_KEY });
 
 import { marketplaceAddress } from "../config";
 
-import NFTMarketplace from "../artifacts/contracts/NFTMarketplace.sol/NFTMarketplace.json";
+import NFTMarketplace from "../public/NFTMarketplace.json";
 
 export default function CreateItem() {
   const [fileUrl, setFileUrl] = useState(null);
